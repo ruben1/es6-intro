@@ -1,0 +1,24 @@
+{
+  "name": "learningAppClientWeb",
+  "version": "0.0.0",
+  "description": "",
+  "main": "src/main.jsx",
+  "scripts": {
+    "dev": "webpack-dev-server --devtool eval --progress --colors --content-base build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-core": "^5.5.8",
+    "babel-loader": "^5.1.4",
+    "flux": "^2.0.3",
+    "jsx-loader": "^0.13.2",
+    "lodash": "^3.9.3",
+    "node-libs-browser": "^0.5.2",
+    "react": "^0.13.3",
+    "webpack": "^1.9.11"
+  },
+  "devDependencies": {
+    "expect": "^1.6.0"
+  }
+}
