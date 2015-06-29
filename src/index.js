@@ -1,10 +1,87 @@
+// require('babel-runtime/core-js/promise').default = require('bluebird');
 const _ = require('lodash');
 
 describe('Class', function() {
 
 });
 describe('Function', function() {
+  describe('with Arrow Syntax and no "function" keyword', function() {
+    it('should allow the declaration of functions with the arrow syntax and without "function" keyword', function() {
+      var func = (x) => {
+        return x;
+      };
+      expect(func.prototype.constructor).toEqual(jasmine.any(Function))
+    });
+    it('should bind "this" to the outer scope', function(done) {
+      this.name = 'Ruben';
 
+      setTimeout(() => {
+        expect(this.name).toEqual('Ruben');
+        done()
+      });
+    });
+    it('should allow one-line expressions with implicit return', function() {
+      var sum = (x, y) => x + y
+      expect(sum(1,2)).toEqual(3);
+    });
+    it('should allow function statements', function() {
+      var substract = (x, y) => {
+        return x - y;
+      };
+      expect(substract(3,1)).toEqual(2);
+    });
+    it('should allow no parens when there is only 1 argument', function() {
+      var triple = x => x * 3
+      expect(triple(10)).toEqual(30);
+    });
+  });
+  describe('with default argument values', function() {
+    beforeEach(function() {
+    });
+    it('should allow to set default argument values', function() {
+      var sum = (x=1, y=2) => {
+        return x + y;
+      };
+      expect(sum()).toEqual(3);
+    });
+    it('should allow to set certain default argument values', function() {
+      var sum = (x = 1, y) => {
+        return x + y;
+      };
+      var substract = (x, y = 1) => {
+        return x - y;
+      };
+      expect(sum(undefined, 2)).toEqual(3);
+      expect(substract(3)).toEqual(2);
+    })
+  });
+  describe('with spread operator', function() {
+    it('should pass an array of values just like .apply()', function() {
+      const data = ['mexican', 'taco'];
+      var eat = (place, food) => {
+        return {
+          place,
+          food
+        };
+      };
+      expect(eat(...data).place).toEqual('mexican');
+      expect(eat(...data).food).toEqual('taco');
+    });
+  });
+  describe('with rest parameter', function() {
+    it('should have an array of values passed', function() {
+      const data = ['mexican', 'taco', 'burrito']
+      var eat = (place, ...food) => {
+        return {
+          place,
+          food
+        };
+      };
+      expect(eat(...data).place).toEqual('mexican');
+      expect(eat(...data).food).toEqual(jasmine.any(Array));
+      expect(eat(...data).food).toEqual(['taco', 'burrito']);
+    });
+  });
 });
 describe('Array', function() {
   it('should destructure an array', function() {
@@ -15,13 +92,23 @@ describe('Array', function() {
     expect(wednesdayVisits).toEqual(40);
   });
 
-  describe('Array.prototype', function() {
-    it('should have filter', function() {
-      expect(Array.prototype.filter).toBeDefined();
-    });
-    it('should have reduce', function() {
-      expect(Array.prototype.reduce).toBeDefined();    
-    });
+  describe('Array methods', function() {
+    // it('should have Array.from()', function() {
+    //   expect(Array.from).toBeDefined();
+    // });
+    // it('should have Array.to()', function() {
+    //   expect(Array.to).toBeDefined();      
+    // })
+    // it('should have Array.entries()', function() {
+    //   expect(Array.prototype.entries).toBeDefined();    
+    // });
+    // it('should have Array.keys()', function() {
+    //   expect(Array.prototype.keys).toBeDefined();    
+    // });
+    // it('should have Array.values()', function() {
+    //   expect(Array.prototype.values).toBeDefined();    
+    // });
+
   });
 });
 
