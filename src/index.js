@@ -154,7 +154,27 @@ describe('Set', () => {
 
 });
 describe('Map', () => {
-
+  it('should expose a get and a set method', () => {
+    const map = new Map();
+    map.set('one', 1);
+    expect(map.get('one')).toEqual(1);
+  });
+  it('should expose a clear method', () => {
+    const map = new Map();
+    map.set('one', 1);
+    map.clear();
+    expect(map.get('one')).toBeUndefined();
+  });
+  it('should expose a has method', () => {
+    const map = new Map();
+    map.set(1);
+    expect(map.has(1)).toBe(true);
+  });
+  it('should expose a size method', () => {
+    const map = new Map();
+    map.set('one', 1);
+    expect(map.size).toEqual(1);
+  });
 });
 describe('Weakmap', () => {
 
