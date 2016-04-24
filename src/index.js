@@ -148,7 +148,7 @@ describe('Object', () => {
 });
 
 describe('Symbol', () => {
-
+  describe('')
 });
 describe('Set', () => {
 
@@ -333,11 +333,104 @@ describe('Promise', () => {
   });
 });
 describe('Iterator', () => {
+  // for of loop with arrays, sets, maps will call the iterator method(Symbol.iterator) on the object(only if it's iterable -> has an iterator method)
+  // An iterator object can be any object with a .next() method. The for-of loop will call this method repeatdly, once each time through the loop
+  // they are not a single class but an extension point of the language
+  // objects -> for in or for of with Object.keys()
+  var zeroesForeverIterator = {
+    [Symbol.iterator]: function () {
+      return this;
+    },
+    next: function () {
+      return {done: false, value: 0};
+    }
+  };
 
+  // pseudocode
+  var $iterator = ITERABLE[Symbol.iterator]();
+  var $result = $iterator.next();
+  while (!$result.done) {
+    VAR = $result.value;
+    STATEMENTS
+    $result = $iterator.next();
+  }
+  // PYTHON EXAMPLE
+  // # An iterable is an object that knows how to create an iterator.
+  // our_iterator = iter(our_iterable)
+
+  // # Our iterator is an object that can remember the state as we traverse through it.
+  // # We get the next object with "next()".
+  // next(our_iterator)  #=> "one"
+
+  // # It maintains state as we iterate.
+  // next(our_iterator)  #=> "two"
+  // next(our_iterator)  #=> "three"
+
+  // # After the iterator has returned all of its data, it gives you a StopIterator Exception
+  // next(our_iterator) # Raises StopIteration
+
+  // # You can grab all the elements of an iterator by calling list() on it.
+  // list(filled_dict.keys())  #=> Returns ["one", "two", "three"]
 });
 describe('Generator', () => {
+  // yield pauses execution until next call 
+  // the generator function will return a paused generator object
+  // each time you call .next() on it, it will run until the next yield statement and will 'return' what's been yielded
+  function* quips(name) {
+    yield "hello " + name + "!";
+    yield "i hope you are enjoying the blog posts";
+    if (name.startsWith("X")) {
+      yield "it's cool how your name starts with X, " + name;
+    }
+    yield "see you later!";
 
+    // var iter = quips("jorendorff");
+    //   [object Generator]
+    // > iter.next()
+    //   { value: "hello jorendorff!", done: false }
+    // > iter.next()
+    //   { value: "i hope you are enjoying the blog posts", done: false }
+    // > iter.next()
+    //   { value: "see you later!", done: false }
+    // > iter.next()
+    //   { value: undefined, done: true }
+    //   
+    //   In technical terms, each time a generator yields, its stack frame—the local variables, 
+    //   arguments, temporary values, and the current position of execution within the generator body—is 
+    //   removed from the stack. However, the Generator object keeps a reference to (or copy of) this stack frame, 
+    //   so that a later .next() call can reactivate it and continue execution.
+
+    function* range(start, stop) {
+      for (var i = start; i < stop; i++)
+        yield i;
+    }
+    // generators are iterators. All generators have a built-in implementation 
+    // of .next() and [Symbol.iterator]().
+  }
 });
 describe('Proxy', () => {
 
 });
+
+
+
+// python generator
+// 
+/*# Generators help you make lazy code
+def double_numbers(iterable):
+    for i in iterable:
+        yield i + i
+
+# A generator creates values on the fly.
+# Instead of generating and returning all values at once it creates one in each
+# iteration.  This means values bigger than 15 wont be processed in
+# double_numbers.
+# We use a trailing underscore in variable names when we want to use a name that
+# would normally collide with a python keyword
+range_ = range(1, 900000000)
+# will double all numbers until a result >=30 found
+for i in double_numbers(range_):
+    print(i)
+    if i >= 30:
+        break
+*/
