@@ -170,14 +170,65 @@ describe('Map', () => {
     map.set(1);
     expect(map.has(1)).toBe(true);
   });
-  it('should expose a size method', () => {
+  it('should expose a size property', () => {
     const map = new Map();
     map.set('one', 1);
     expect(map.size).toEqual(1);
   });
+  it('should expose an entries method', () => {
+    const map = new Map();
+    map.set('one', 1);
+    for(let [key, value] of map.entries()) {
+      expect(key).toEqual('one');
+      expect(value).toEqual(1);
+    }
+  });
+  it('should expose a keys method', () => {
+    const map = new Map();
+    map.set('one', 1);
+    for(let key of map.keys()) {
+      expect(key).toEqual('one');
+    }
+  });
+  it('should expose a values method', () => {
+    const map = new Map();
+    map.set('one', 1);
+    for(let value of map.values()) {
+      expect(value).toEqual(1);
+    }
+  });
+  // object only accepts strings and symbols
+  it('should accept any value as key', () => {
+    const map = new Map();
+    const obj = {};
+    const func = function() {};
+    const str = 'hola';
+    map.set(obj, 'a');
+    map.set(func, 'b');
+    map.set(str, 'c');
+    expect(map.get(obj)).toEqual('a');
+    expect(map.get(func)).toEqual('b');
+    expect(map.get(str)).toEqual('c');
+  });
 });
-describe('Weakmap', () => {
-
+// no references are held to the keys of the map -> available to garbage collection
+describe('WeakMap', () => {
+  it('should expose get, set, clear, has and size', () => {
+    const weakmap = new WeakMap();
+    weakmap.set({a: 1}, 'a');
+  })
+  it('should not expose entries, keys, values methods', () => {
+    const weakmap = new WeakMap();
+    expect(weakmap.entries).toBeUndefined();
+    expect(weakmap.keys).toBeUndefined();
+    expect(weakmap.values).toBeUndefined();
+  })
+  it('should only accept objects as keys', () => {
+    const weakmap = new WeakMap();
+    const obj = {a: 1};
+    weakmap.set(obj, 1);
+    expect(weakmap.get(obj)).toEqual(1);
+  })
 });
 
 describe('Variable Declarations', () => {
