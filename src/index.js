@@ -8,12 +8,48 @@ describe('Class', function() {
         this.name = name;
       }
     }
-    var person = new Person('Ruben');
+    const person = new Person('Ruben');
     expect(person.name).toEqual('Ruben');
   });
   it('should allow to create instance methods', () => {
-
+    class Person {
+      constructor(name) {
+        this.name
+      }
+      talk() {
+        console.log('talking');
+      }
+    }
+    const person = new Person('Ruben');
+    expect(person.talk).toBeDefined();
   });
+  it('should allow to extend from a super class', () => {
+    class Animal {
+      constructor() {
+        this.isBorn = true;
+      }
+      birth() {
+
+      }
+      die() {
+
+      }
+    }
+    class Person extends Animal {
+      constructor(name) {
+        super();
+        this.name = name;
+      }
+      talk() {
+        console.log('duuuuuuuurrr');
+      }
+    }
+    const person = new Person('Ruben');
+    expect(person.isBorn).toEqual(true);
+    expect(person.die).toBeDefined();
+    expect(person.name).toEqual('Ruben');
+    expect(person.talk).toBeDefined();
+  }); 
 });
 describe('Function', () => {
   describe('with Arrow Syntax and no "function" keyword', () => {
@@ -106,6 +142,8 @@ describe('Array', () => {
   describe('Array methods', () => {
     xit('should have Array.from()', () => {
       expect(Array.from).toBeDefined();
+      const divs = document.querySelector('div');
+      expect(Array.from(divs) instanceof Array).toBe(true);
     });
     xit('should have Array.to()', () => {
       expect(Array.to).toBeDefined();      
@@ -148,7 +186,7 @@ describe('Object', () => {
 });
 
 describe('Symbol', () => {
-  describe('')
+  // describe('')
 });
 describe('Set', () => {
 
